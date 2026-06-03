@@ -1,5 +1,7 @@
 import pandas as pd
 import os 
+import tkinter as tk
+from tkinter import messagebox
 
 
 FICHIER_EXCEL = "DATA.xlsx"
@@ -27,3 +29,23 @@ def initialisation_bd():
     table_reservation.to_excel(writer,sheet_name=FEUILLE_RESERVATION, index= False)
     table_seance.to_excel(writer,sheet_name=FEUILLE_SEANCE, index= False)
     writer.close()
+
+def lire_feuille(nom_feuille):
+    try:
+        df = pd.read_excel(FICHIER_EXCEL, sheet_name= nom_feuille, dtype=str )
+    except:
+        df = pd.DataFrame()
+    return df
+        
+def get_utulisateur_nom(nom_utulisateur):
+    df = lire_feuille(FEUILLE_UTILISATEUR)
+    if df.empty:
+        root = tk.Tk()
+        root.destroy()
+        messagebox.showerror("Erreur","La BD est vide")
+        return None
+    resultat = df[df["Nom_Utilisateur"].str.lower() == nom_utulisateur.lower()]
+    if resultat.empty:
+        return None
+    return resultat
+        
