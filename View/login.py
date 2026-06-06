@@ -17,16 +17,16 @@ def login_fenetre():
     
     tk.Label(text="Mot de passe",font=("Arial",11),fg=C_TEXTE_TITRE).pack()
     
-    champ_psd = tk.Entry(fenetre, font=("Arial",11), width = 30, relief="solid" )
+    champ_psd = tk.Entry(fenetre, font=("Arial",11), width = 30, relief="solid",show="*" )
     champ_psd.pack(pady=(5,10), ipady=6)
     
     label_erreur = tk.Label(fenetre,text="",font=("Arial",11),fg=C_ROUGE)
     label_erreur.pack(pady=5)
     
     tk.Button(fenetre, text="Se connecter", width= 20, font=("Arial",11),bg= C_BLEU,
-              command=lambda: controller.authentifier(champ_nom.get(),champ_psd.get(),label_erreur)).pack()
+              command=lambda: controller.authentifier(champ_nom.get(),champ_psd.get(),label_erreur, fenetre)).pack()
     
-    
+    fenetre.bind("<Return>",lambda e: controller.authentifier(champ_nom.get(),champ_psd.get(),label_erreur, fenetre))
     
     
     fenetre.mainloop()
