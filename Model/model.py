@@ -37,14 +37,14 @@ def lire_feuille(nom_feuille):
         df = pd.DataFrame()
     return df
         
-def get_utulisateur_nom(nom_utulisateur):
+def get_utilisateur_nom(nom_utilisateur):
     df = lire_feuille(FEUILLE_UTILISATEUR)
     if df.empty:
         root = tk.Tk()
         root.destroy()
         messagebox.showerror("Erreur","La BD est vide")
         return None
-    resultat = df[df["Nom_Utilisateur"].str.lower() == nom_utulisateur.lower()]
+    resultat = df[df["Nom_Utilisateur"].str.lower() == nom_utilisateur.lower()]
     if resultat.empty:
         return None
     return resultat
