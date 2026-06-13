@@ -143,8 +143,124 @@ def creer_page_utilisateur(zone_contenu):
     )
 
     tableau_frame = tk.Frame(page, bg="white")
-    input_fram.pack(fill="x", padx=20, pady=(5, 20))
+    tableau_frame.pack(fill="both", expand=True, padx=20, pady=(0, 20))
     
-    
+    # ==================== TITRE TABLEAU ====================
 
+    tk.Label(
+        tableau_frame,
+        text="Liste des utilisateurs",
+        font=("Arial", 12, "bold"),
+        bg="white",
+        fg=C_TEXTE_TITRE
+    ).pack(anchor="w", padx=20, pady=(20, 10))
+
+
+    # ==================== BARRE D'ACTION ====================
+
+    action_frame = tk.Frame(tableau_frame, bg="white")
+    action_frame.pack(fill="x", padx=20, pady=(0, 15))
+
+    btn_modifier = tk.Button(
+        action_frame,
+        text="Modifier",
+        font=("Arial", 10, "bold"),
+        bg = C_ORANGE,
+        fg="white",
+        cursor="hand2",
+        padx=10
+    )
+    btn_modifier.pack(side="left", padx=(0, 10))
+
+    btn_supprimer = tk.Button(
+        action_frame,
+        text="Supprimer",
+        font=("Arial", 10, "bold"),
+        bg=C_ROUGE,
+        fg="white",
+        cursor="hand2",
+        padx=10
+    )
+    btn_supprimer.pack(side="left")
+
+    # Zone recherche
+    recherche_frame = tk.Frame(action_frame, bg="white")
+    recherche_frame.pack(side="right")
+
+    tk.Label(
+        recherche_frame,
+        text="Recherche :",
+        bg="white",
+        font=("Arial", 10)
+    ).pack(side="left", padx=(0, 5))
+
+    entree_recherche = tk.Entry(
+        recherche_frame,
+        font=("Arial", 10),
+        width=25
+    )
+    entree_recherche.pack(side="left", padx=(0, 5))
+
+    btn_rechercher = tk.Button(
+        recherche_frame,
+        text="Rechercher",
+        font=("Arial", 10),
+        bg=C_BLEU,
+        fg="white",
+        cursor="hand2"
+    )
+    btn_rechercher.pack(side="left")
+
+
+    # ==================== TABLEAU ====================
+
+    style = ttk.Style()
+    style.configure(
+        "Treeview",
+        rowheight=28,
+        font=("Arial", 10)
+    )
+
+    colonnes = (
+        "id",
+        "nom",
+        "role",
+        "motdepasse"
+    )
+
+    tableau = ttk.Treeview(
+        tableau_frame,
+        columns=colonnes,
+        show="headings",
+        height=10
+    )
+
+    tableau.heading("id", text="ID")
+    tableau.heading("nom", text="Nom d'utilisateur")
+    tableau.heading("role", text="Rôle")
+    tableau.heading("motdepasse", text="Mot de passe")
+
+    tableau.column("id", width=80, anchor="center")
+    tableau.column("nom", width=250,anchor= "center")
+    tableau.column("role", width=180, anchor="center")
+    tableau.column("motdepasse", width=200)
+
+    # Données de test
+    tableau.insert("", "end", values=(1, "admin", "Administrateur", "1234"))
+    tableau.insert("", "end", values=(2, "prof1", "Professeur", "abcd"))
+
+    # Scrollbar
+    scroll = ttk.Scrollbar(
+        tableau_frame,
+        orient="vertical",
+        command=tableau.yview
+    )
+
+    tableau.configure(yscrollcommand=scroll.set)
+
+    tableau.pack(side="left", fill="both", expand=True, padx=(20, 0), pady=(0, 20))
+    scroll.pack(side="right", fill="y", pady=(0, 20))
+    
+    
+    
     return page
