@@ -13,4 +13,5 @@ def creer_page_tableDeBord(zone_contenu):
             fg=C_TEXTE_TITRE
         ).pack(pady=30)
 
+        
         return page

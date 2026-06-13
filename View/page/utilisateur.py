@@ -1,6 +1,7 @@
 import tkinter as tk
 from View.ui_theme import *
 from tkinter import ttk
+from Controller import controller
 
 def creer_page_utilisateur(zone_contenu):
 
@@ -33,6 +34,20 @@ def creer_page_utilisateur(zone_contenu):
         pady=20
     )
     
+    def vider_champs(input_nom, input_psw, menu_role):
+        input_nom.delete(0, tk.END)
+        input_psw.delete(0, tk.END)
+        menu_role.set("")
+        
+    def creer_vider_utilisateur():
+        controller.creer_utilisateur(
+            input_nom.get(),
+            input_psw.get(),
+            menu_role.get(),
+        )
+        controller.afficher_utilisateurs(tableau)
+        vider_champs(input_nom, input_psw, menu_role)
+    
     btn_creer = tk.Button(
         input_fram,
         text="Créer un utilisateur",
@@ -44,7 +59,8 @@ def creer_page_utilisateur(zone_contenu):
         cursor="hand2",
         activebackground=C_VERT_HOVER,
         activeforeground="white",
-        padx=7  
+        padx=7,
+        command= creer_vider_utilisateur
     )
     btn_creer.grid(
         row=0,
@@ -214,23 +230,11 @@ def creer_page_utilisateur(zone_contenu):
 
     # ==================== TABLEAU ====================
 
-    style = ttk.Style()
-    style.configure(
-        "Treeview",
-        rowheight=28,
-        font=("Arial", 10)
-    )
-
-    colonnes = (
-        "id",
-        "nom",
-        "role",
-        "motdepasse"
-    )
+    
 
     tableau = ttk.Treeview(
         tableau_frame,
-        columns=colonnes,
+        columns=("id","nom","role","motdepasse"),
         show="headings",
         height=10
     )
@@ -246,8 +250,8 @@ def creer_page_utilisateur(zone_contenu):
     tableau.column("motdepasse", width=200)
 
     # Données de test
-    tableau.insert("", "end", values=(1, "admin", "Administrateur", "1234"))
-    tableau.insert("", "end", values=(2, "prof1", "Professeur", "abcd"))
+    # tableau.insert("", "end", values=(1, "admin", "Administrateur", "1234"))
+    # tableau.insert("", "end", values=(2, "prof1", "Professeur", "abcd"))
 
     # Scrollbar
     scroll = ttk.Scrollbar(
@@ -261,6 +265,8 @@ def creer_page_utilisateur(zone_contenu):
     tableau.pack(side="left", fill="both", expand=True, padx=(20, 0), pady=(0, 20))
     scroll.pack(side="right", fill="y", pady=(0, 20))
     
+    
+    controller.afficher_utilisateurs(tableau)
     
     
     return page

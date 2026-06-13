@@ -104,7 +104,7 @@ def admin_fenetre(nomAdmin):
             menu_frame,
             text=f"{icone}   {texte}",
             font=("Arial", 11),
-            bg=C_SIDEBAR_HOVER,
+            bg=C_SIDEBAR,
             fg=C_TEXTE_SIDEBAR,
             bd=0,
             relief="flat",

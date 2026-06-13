@@ -49,3 +49,43 @@ def get_utilisateur_nom(nom_utilisateur):
         return None
     return resultat
         
+        
+def get_liste_utilisateur():
+    df = lire_feuille(FEUILLE_UTILISATEUR)
+    liste_utilisateur = df.to_dict("records")
+    return liste_utilisateur
+
+def sauvegarder_feuille(nom_feuille,df):
+    with pd.ExcelWriter(FICHIER_EXCEL,engine="openpyxl",mode='a',if_sheet_exists="replace") as writer:
+        df.to_excel(writer, sheet_name = nom_feuille, index = False)
+    
+
+
+def ajouter_utilisateur(nom,pswd,role):
+    df = lire_feuille(FEUILLE_UTILISATEUR)
+    
+    if nom.strip().lower() in df["Nom_Utilisateur"].str.lower().values:
+        return False
+    
+    if df.empty :
+        id_user = 1
+    else:
+        id_user = int(df["ID_Utilisateur"].max()) + 1
+    
+    nouvel_utilisateur = pd.DataFrame(
+        [
+            {
+                "ID_Utilisateur": id_user,
+                "Nom_Utilisateur": nom.strip(),
+                "Password": pswd.strip(),
+                "Role": role.strip()
+            }
+        ]
+    )
+    
+    new_df = pd.concat([df,nouvel_utilisateur],ignore_index=True)
+    sauvegarder_feuille(FEUILLE_UTILISATEUR,new_df)
+    return True
+    
+    
+    
